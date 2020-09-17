@@ -1,7 +1,7 @@
 const lab1 = require('./lab1')
 
 console.log(lab1.questionOne([4, 1, 6])); 
-// {1: true, 4: false, 6: false} 
+// {1: false, 4: false, 6: false} 
 
 console.log(lab1.questionOne([32])); 
 // {32: false} 

@@ -1,8 +1,14 @@
+// I pledge my honor that I have abided by the Stevens Honor System.
+
 const questionOne = function questionOne(arr) {
     const result = {};
     arr && arr.forEach((number) => {
-        for(let i = 2; i<number/2; i++){
-            if (number % i == 0) {
+        if(number === 1) {
+            result[number] = false;
+            return;
+        }
+        for(let i = 2; i<=number/2; i++){
+            if (number % i === 0) {
                 result[number] = false;
                 return;
             }
@@ -29,7 +35,6 @@ const questionThree = function questionThree(text) {
     }
     const legend = {
         ',.:;"/\'!-()[]?': 'punctuation',
-        '|`~@#$%^&*=+_\\<>{}': 'specialCharacters',
         'aeiou': 'vowels',
         ' ': 'spaces',
         '0123456789': 'numbers',
@@ -43,20 +48,27 @@ const questionThree = function questionThree(text) {
         }
     })
     for(const c of text.toLowerCase()){
-        result[keys[c]] += 1
+        if (!keys[c]) result['specialCharacters'] += 1
+        else result[keys[c]] += 1
     }
     return result
 };
 
 const questionFour = function questionFour(num1, num2, num3) {
-    const PV = num1;
-    const i = (num2 / 100) / 12;
-    const n = num3 * 12;
-    const PVi = PV * i;
-    const fraction = 1 - (1 / Math.pow(1+i, n));
-    return (PVi/fraction).toFixed(2);
+    let result
+    if (num2 === 0) result = (num1/(num3*12)).toFixed(2)
+    else {
+        const PV = num1;
+        const i = (num2 / 100) / 12;
+        const n = num3 * 12;
+        const PVi = PV * i;
+        const fraction = 1 - (1 / Math.pow(1+i, n));
+        result = (PVi/fraction).toFixed(2)
+    }
+    return +result
 };
 
+// TODO: fix 1 being prime and assign any characters not in list to special characters.
 module.exports = {
     firstName: "Max", 
     lastName: "Shi", 
