@@ -1,3 +1,5 @@
+const { isEqual } = require('./arrayUtils');
+
 const isEmptyObject = (object) => {
     return Object.keys(object).length === 0;
 };
@@ -19,6 +21,7 @@ const makeArrays = (objects) => {
             result.push([key, obj[key]]);
         });
     });
+    return result;
 };
 
 const isDeepEqual = (obj1, obj2) => {
@@ -39,6 +42,8 @@ const isDeepEqual = (obj1, obj2) => {
                 obj2[key].constructor === Object
             )
                 return isDeepEqual(obj1[key], obj2[key]);
+            if (obj1[key] instanceof Array && obj2[key] instanceof Array)
+                return isEqual(obj1[key], obj2[key]);
             return obj1[key] === obj2[key];
         })
         .includes(false);

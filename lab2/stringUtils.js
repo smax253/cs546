@@ -35,7 +35,9 @@ const mashUp = (string1, string2) => {
     if (!string2 || typeof string2 != 'string' || string2.length < 2)
         throw 'string2 must be a string with at least 2 characters';
 
-    return `${string2[0]}${string1.split(1)} ${string1[0]}${string2.split(1)}`;
+    return `${string2.substring(0, 2)}${string1.substring(
+        2,
+    )} ${string1.substring(0, 2)}${string2.substring(2)}`;
 };
 
 module.exports = {

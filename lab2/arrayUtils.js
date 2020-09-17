@@ -15,12 +15,14 @@ const medianSquared = (array) => {
     else if (array.map((number) => typeof number === 'number').includes(false))
         throw 'array does not contain all numbers';
 
-    const arrSquared = array.map((number) => number * number);
-    const sorted = arrSquared.sort((a, b) => a - b);
+    const sorted = array.sort((a, b) => a - b);
     const middle = (sorted.length - 1) / 2;
     if (sorted.length % 2 === 0)
-        return (sorted[Math.floor(middle)] + sorted[Math.ceil(middle)]) / 2;
-    else return sorted[middle];
+        return Math.pow(
+            (sorted[Math.floor(middle)] + sorted[Math.ceil(middle)]) / 2,
+            2,
+        );
+    else return Math.pow(sorted[middle], 2);
 };
 
 const maxElement = (array) => {
@@ -30,15 +32,17 @@ const maxElement = (array) => {
     else if (array.map((number) => typeof number === 'number').includes(false))
         throw 'array does not contain all numbers';
 
-    const max = array[0];
-    const maxind = 0;
+    let max = array[0];
+    let maxind = 0;
     array.forEach((val, ind) => {
         if (val > max) {
             max = val;
             maxind = ind;
         }
     });
-    return { max: maxind };
+    const result = {};
+    result[max] = maxind;
+    return result;
 };
 
 const fill = (end, value) => {
@@ -71,19 +75,16 @@ const isEqual = (arrayOne, arrayTwo) => {
     if (!arrayTwo || !(arrayTwo instanceof Array))
         throw 'arrayTwo is not an Array';
     if (arrayOne.length !== arrayTwo.length) return false;
-
     const sortedArrayOne = arrayOne.sort(),
         sortedArrayTwo = arrayTwo.sort();
     for (let i = 0; i < sortedArrayOne.length; i++) {
         const itemOne = sortedArrayOne[i];
         const itemTwo = sortedArrayTwo[i];
-        if (
-            itemOne instanceof Array &&
-            itemTwo instanceof Array &&
-            !isEqual(itemOne, itemTwo)
-        )
+        if (itemOne instanceof Array && itemTwo instanceof Array) {
+            if (!isEqual(itemOne, itemTwo)) return false;
+        } else if (itemOne !== itemTwo) {
             return false;
-        if (itemOne !== itemTwo) return false;
+        }
     }
     return true;
 };
@@ -96,12 +97,3 @@ module.exports = {
     mean,
     medianSquared,
 };
-
-console.log(
-    medianSquared([1, 6, 2, 10]), // Returns: 4
-    //medianSquared([]), // throws an error
-    //medianSquared('banana'), // throws an error
-    //medianSquared(1, 2, 3), // throws an error
-    //medianSquared(['guitar', 1, 3, 'apple']), // throws an error
-    //medianSquared(),
-); // throws an error])
