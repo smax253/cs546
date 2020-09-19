@@ -75,6 +75,14 @@ const isEqual = (arrayOne, arrayTwo) => {
   if (!arrayTwo || !(arrayTwo instanceof Array))
     throw "arrayTwo is not an Array";
   if (arrayOne.length !== arrayTwo.length) return false;
+  for (let i = 0; i < arrayOne.length; i++) {
+    if (arrayOne[i] instanceof Array) {
+      arrayOne[i] = arrayOne[i].sort();
+    }
+    if (arrayTwo[i] instanceof Array) {
+      arrayTwo[i] = arrayTwo[i].sort();
+    }
+  }
   const sortedArrayOne = arrayOne.sort(),
     sortedArrayTwo = arrayTwo.sort();
   for (let i = 0; i < sortedArrayOne.length; i++) {

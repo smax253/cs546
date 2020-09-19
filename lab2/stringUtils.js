@@ -1,7 +1,8 @@
 const camelCase = (string) => {
-  if (!string || typeof string != "string")
+  if (!string || typeof string != "string" || !string.trim())
     throw "string must be a non-empty string";
   return string
+    .trim()
     .split(" ")
     .map((word, ind) => {
       if (ind === 0) return word.toLowerCase();
