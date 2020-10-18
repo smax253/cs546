@@ -1,54 +1,91 @@
-const { ObjectId } = require('mongodb');
 const { books } = require('../config/mongoCollections');
+const {
+    checkValidObject,
+    checkValidStrings,
+    checkValidArrayOfStrings,
+    checkBooksFields,
+    checkDate,
+    parseId,
+    convertIdInDocument,
+} = require('../helpers');
 
-const convertIdInDocument = (document) => {
-    const newDocument = { ...document };
-    newDocument._id = document._id.toString();
-    return newDocument;
-};
-
-const checkValidStrings = (stringObject) => {
-    for (const key of Object.keys(stringObject)) {
-        const value = stringObject[key];
-        if (!value || typeof value !== 'string' || !value.trim())
-            throw `${key} must be a non-empty string.`;
-    }
-};
-
-const checkValidArrayOfStrings = (array, name = 'array') => {
-    if (
-        !array ||
-        array.constructor !== Array ||
-        array.length === 0 ||
-        array.filter((item) => item && !!item.trim()).length === 0
-    )
-        throw `${name} must be a non-empty array.`;
-};
-
-const checkValidObject = (object, name = 'object') => {
-    if (!object || typeof object !== 'object' || object === null)
-        throw `${name} must be an object.`;
-};
-
-const checkDate = (date) => {
-    const mdy = date.split('/');
-    if(mdy.length !== 3) throw "invalid date";
-    const date = new Date(date);
-    if(date.getTime() !== date.getTime()) throw "invalid date";
-};
-
-const parseId = (id) => {
-    checkValidStrings({ id });
-    return ObjectId(id);
-};
-
-const create = (title, author, genre, datePublished, summary) => {
-    checkValidObject(author, 'author')
+const create = async (title, author, genre, datePublished, summary) => {
+    checkValidObject(author, 'author');
     checkValidStrings({
-        title, summary, datePublished, authorFirstName: author.authorFirstName, authorLastName: author.authorLastName
-    })
-    checkDate(datePublished)
+        title,
+        summary,
+        datePublished,
+        authorFirstName: author.authorFirstName,
+        authorLastName: author.authorLastName,
+    });
+    checkDate(datePublished);
     checkValidArrayOfStrings(genre);
 
-    
+    const booksCollection = await books();
+    const itemToInsert = {
+        title,
+        author,
+        genre,
+        datePublished,
+        summary,
+        reviews: [],
+    };
+    itemToInsert._id = (
+        await booksCollection.insertOne(itemToInsert)
+    ).insertedId.toString();
+    return itemToInsert;
+};
+
+const getAll = async () => {
+    const booksCollection = await books();
+    const allDocuments = await booksCollection.find({}).toArray();
+    const result = allDocuments.map((document) => {
+        return convertIdInDocument(document);
+    });
+    return result;
+};
+
+const get = async (id) => {
+    const parsedId = parseId(id);
+    const booksCollection = await books();
+    const documentQuery = await booksCollection.findOne({ _id: parsedId });
+    if (!documentQuery) throw 'document with the given id does not exist';
+    return convertIdInDocument(documentQuery);
+};
+
+async function remove(id) {
+    const parsedId = parseId(id);
+    const booksCollection = await books();
+    const removeResult = await booksCollection.findOneAndDelete({
+        _id: parsedId,
+    });
+    if (removeResult.value)
+        return `${removeResult.value.title} has been successfully deleted`;
+    else throw 'failed to remove movie entry';
 }
+
+async function update(id, fields) {
+    checkValidObject(fields, 'fields');
+    checkBooksFields(fields);
+
+    const parsedId = parseId(id);
+
+    const bookCollection = await books();
+    const updateResult = await bookCollection.findOneAndUpdate(
+        { _id: parsedId },
+        {
+            $set: { ...fields },
+        },
+    );
+    if (updateResult.value) {
+        return convertIdInDocument(await get(id));
+    } else throw 'failed to update movie entry';
+}
+
+module.exports = {
+    create,
+    get,
+    getAll,
+    update,
+    remove,
+};

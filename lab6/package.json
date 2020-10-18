@@ -1,12 +1,17 @@
 {
-  "name": "lab6",
-  "version": "1.0.0",
-  "description": "Lab 6 for CS546 Fall 2020",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
-  },
-  "author": "Max Shi 10439248",
-  "license": "ISC"
+    "name": "lab6",
+    "version": "1.0.0",
+    "description": "Lab 6 for CS546 Fall 2020",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node app.js",
+        "seed": "node tasks/seed.js"
+    },
+    "author": "Max Shi 10439248",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.17.1",
+        "mongodb": "^3.6.2"
+    }
 }
