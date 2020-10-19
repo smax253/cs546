@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { books } = require('../data');
+const { books, reviews } = require('../data');
 
 router.get('/', async (_, res) => {
     const allBooks = await books.getAll();
@@ -44,6 +44,10 @@ router.put('/:id', async (req, res) => {
     try {
         for (const field of fields) {
             if (!body[field]) throw 'missing field';
+            if (field === 'author') {
+                if (!body.author.authorFirstName || !body.author.authorLastName)
+                    throw 'missing field';
+            }
         }
         if (body.reviews) throw 'cannot modify reviews';
         const result = await books.update(id, body);
@@ -62,6 +66,24 @@ router.patch('/:id', async (req, res) => {
         res.json(result);
     } catch (error) {
         res.status(400).send();
+    }
+});
+
+router.delete('/:id', async (req, res) => {
+    try {
+        const reviewIds = (await books.get(req.params.id)).reviews;
+        for (const reviewId of reviewIds) {
+            try {
+                await reviews.remove(reviewId);
+            } catch (error) {}
+        }
+        await books.remove(req.params.id);
+        res.json({
+            bookId: req.params.id,
+            deleted: true,
+        });
+    } catch (error) {
+        res.status(400).json({ error });
     }
 });
 

@@ -40,7 +40,7 @@ const create = async (
 };
 
 const get = async (id) => {
-    const parsedId = parseid(id);
+    const parsedId = parseId(id);
     const reviewsCollection = await reviews();
     const documentQuery = await reviewsCollection.findOne({ _id: parsedId });
     if (!documentQuery) throw 'document with the given id does not exist';
@@ -66,9 +66,7 @@ async function remove(id) {
         const reviewedBook = await books.get(
             removeResult.value.bookBeingReviewed,
         );
-        const newReviews = reviewedBook.reviewedBook.filter(
-            (elem) => elem !== id,
-        );
+        const newReviews = reviewedBook.reviews.filter((elem) => elem !== id);
         await books.update(reviewedBook._id, { reviews: newReviews });
         return `${removeResult.value.title} has been successfully deleted`;
     } else throw 'failed to remove movie entry';

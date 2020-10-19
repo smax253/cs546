@@ -71,6 +71,13 @@ async function update(id, fields) {
     const parsedId = parseId(id);
 
     const bookCollection = await books();
+    if (fields.author) {
+        const currentAuthorName = (await get(id)).author;
+        for (const name of Object.keys(fields.author)) {
+            currentAuthorName[name] = fields.author[name];
+        }
+        fields.author = currentAuthorName;
+    }
     const updateResult = await bookCollection.findOneAndUpdate(
         { _id: parsedId },
         {

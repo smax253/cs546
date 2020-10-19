@@ -14,10 +14,19 @@ router.get('/:id', async (req, res) => {
 
 router.post('/:id', async (req, res) => {
     const id = req.params.id;
+    const body = req.body;
     if (id !== req.body.bookBeingReviewed) res.status(400).send();
     else {
         try {
-            const result = await reviews.create(req.body);
+            const args = [
+                body.title,
+                body.reviewer,
+                body.bookBeingReviewed,
+                body.rating,
+                body.dateOfReview,
+                body.review,
+            ];
+            const result = await reviews.create(...args);
             res.json(result);
         } catch (error) {
             res.status(400).send();

@@ -1,5 +1,4 @@
 const { ObjectId } = require('mongodb');
-const { reviews } = require('../config/mongoCollections');
 
 const convertIdInDocument = (document) => {
     const newDocument = { ...document };
@@ -61,10 +60,17 @@ function checkBooksFields(fields) {
         title: (title) => checkValidStrings({ title }),
         author: (author) => {
             checkValidObject(author);
-            checkValidStrings({
-                firstName: author.authorFirstName,
-                lastName: author.authorLastName,
-            });
+            try {
+                checkValidStrings({
+                    firstName: author.authorFirstName,
+                });
+            } catch (error) {
+                try {
+                    checkValidStrings({ lastName: author.authorLastName });
+                } catch (error) {
+                    throw 'missing fields';
+                }
+            }
         },
         genre: (genre) => checkValidArrayOfStrings(genre),
         datePublished: (date) => checkDate(date),
