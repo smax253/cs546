@@ -1,0 +1,28 @@
+<main class="show-info">
+    {{#if error}}
+    <p class="error">{{error}}</p>
+    {{else}}
+    <div>
+        <h1>{{name}}</h1>
+        <img alt="Image for {{name}}" src="{{imageLink}}">
+        <dl>
+            <dt>Language</dt>
+            <dd>{{language}}</dd>
+            <dt>Genres</dt>
+            <dd>
+                <ul>
+                    {{#each genres}}
+                        <li>{{genre}}</li>
+                    {{/each}}
+                </ul>
+            </dd>
+            <dt>Average Rating</dt>
+            <dd>{{rating}}</dd>
+            <dt>Network</dt>
+            <dd>{{network.name}}</dd>
+            <dt>Summary</dt>
+            <dd>{{summary}}</dd>
+        </dl>
+    </div>
+    {{/if}}
+</main>

@@ -1,0 +1,18 @@
+<main class="results">
+    <a href="/">Make another search</a>
+    {{#if results}}
+    <ul>
+        {{#each results}}
+            <li>
+                <a href="{{link}}">{{title}}</a>
+            </li>
+        {{/each}}
+    </ul>
+    {{else}}
+        {{#if searchTerm}}
+            <p class="not-found">We're sorry, but no results were found for {{searchTerm}}.</p>
+        {{else}}
+            <p class="not-found">Invalid search term provided!</p>
+        {{/if}}
+    {{/if}}
+</main>

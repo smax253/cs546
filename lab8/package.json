@@ -1,0 +1,18 @@
+{
+    "name": "lab8",
+    "version": "1.0.0",
+    "description": "Lab 8 for CS546 Fall 2020",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node app.js"
+    },
+    "author": "Max Shi 10439248",
+    "license": "ISC",
+    "dependencies": {
+        "axios": "^0.21.0",
+        "express": "^4.17.1",
+        "express-handlebars": "^5.2.0",
+        "handlebars": "^4.7.6"
+    }
+}

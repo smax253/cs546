@@ -1,0 +1,31 @@
+.hidden {
+  display: none;
+}
+.is-prime {
+  color: #00e676;
+}
+.not-prime {
+  color: #ff3d00;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+form > * {
+  margin: 8px;
+}
+form button {
+  background-color: cornflowerblue;
+  color: white;
+  border: none;
+  padding: 4px;
+}

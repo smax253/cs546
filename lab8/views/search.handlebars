@@ -1,0 +1,13 @@
+<main class="search">
+    <h1>{{{title}}}</h1>
+    <p>
+        Welcome to the Show Finder! 
+        Type in the name of the show you are looking for and get a list of search results. 
+        Click on a show to view more information.
+    </p>
+    <form action="/search" method="POST">
+        <input name="searchTerm" id="search-bar" type="text">
+        <label for="search-bar">Search for a show</label>
+        <button type="submit">Search</button>
+    </form>
+</main>

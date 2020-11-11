@@ -2,6 +2,8 @@ const mongoConnection = require('../config/mongoConnection');
 const { books, reviews } = require('../data');
 
 async function seedDB() {
+    const db = await mongoConnection();
+    await db.dropDatabase();
     const book1 = await books.create(
         'Gone with the Wind',
         { authorFirstName: 'Margaret', authorLastName: 'Mitchell' },
@@ -59,7 +61,6 @@ async function seedDB() {
     );
     console.log('Reviews DB seeded!');
 
-    const db = await mongoConnection();
     await db.serverConfig.close();
 }
 

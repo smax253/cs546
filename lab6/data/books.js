@@ -21,6 +21,14 @@ const create = async (title, author, genre, datePublished, summary) => {
     checkDate(datePublished);
     checkValidArrayOfStrings(genre);
 
+    title = title.trim();
+    genre = genre.map((element) => element.trim());
+    datePublished = datePublished.trim();
+    summary = summary.trim();
+    for (const key of Object.keys(author)) {
+        author[key] = author[key].trim();
+    }
+
     const booksCollection = await books();
     const itemToInsert = {
         title,
@@ -69,12 +77,17 @@ async function update(id, fields) {
     checkBooksFields(fields);
 
     const parsedId = parseId(id);
-
+    if (fields.title) fields.title = fields.title.trim();
+    if (fields.genre)
+        fields.genre = fields.genre.map((element) => element.trim());
+    if (fields.datePublished)
+        fields.datePublished = fields.datePublished.trim();
+    if (fields.summary) fields.summary = fields.summary.trim();
     const bookCollection = await books();
     if (fields.author) {
         const currentAuthorName = (await get(id)).author;
         for (const name of Object.keys(fields.author)) {
-            currentAuthorName[name] = fields.author[name];
+            currentAuthorName[name] = fields.author[name].trim();
         }
         fields.author = currentAuthorName;
     }

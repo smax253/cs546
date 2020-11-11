@@ -25,6 +25,11 @@ const checkValidArrayOfStrings = (array, name = 'array') => {
         throw `${name} must be a non-empty array with no duplicates.`;
 };
 
+const checkValidArray = (array, name = 'array') => {
+    if (!array || array.constructor !== Array)
+        throw `${name} must be an array.`;
+};
+
 const checkValidObject = (object, name = 'object') => {
     if (!object || typeof object !== 'object' || object === null)
         throw `${name} must be an object.`;
@@ -37,7 +42,7 @@ const checkDate = (dateString) => {
 
 const parseId = (id) => {
     checkValidStrings({ id });
-    return ObjectId(id);
+    return ObjectId(id.trim());
 };
 
 function checkReviewsFields(fields) {
@@ -75,7 +80,7 @@ function checkBooksFields(fields) {
         genre: (genre) => checkValidArrayOfStrings(genre),
         datePublished: (date) => checkDate(date),
         summary: (summary) => checkValidStrings({ summary }),
-        reviews: (reviews) => checkValidArrayOfStrings(reviews),
+        reviews: (reviews) => checkValidArray(reviews),
     };
     for (const field of Object.keys(fields)) {
         if (!validFields[field]) throw `invalid field ${field} passed in!`;
@@ -104,4 +109,5 @@ module.exports = {
     checkValidRating,
     convertIdInDocument,
     checkReviewsFields,
+    checkValidArray,
 };

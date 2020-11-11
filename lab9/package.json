@@ -1,0 +1,15 @@
+{
+  "name": "lab9",
+  "version": "1.0.0",
+  "description": "Lab 9 for CS 546 Fall 2020",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "Max Shi 10439248",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
