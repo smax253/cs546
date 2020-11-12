@@ -11,16 +11,17 @@
         </header>
         <form>
             <label for="fib-input">Enter a number here!</label>
-            <input name="fib-input" type="number">
-            <button type="submit">Calculate!</button>
+            <input id="fib-input" name="fib-input" type="number">
             <p id="error" class="hidden">Invalid input.</p>
+            <p id="too-large" class="hidden">Input is too large.</p>
+            <button type="submit">Calculate!</button>
         </form>
-        <ul id="results">
+        <ol id="results">
 
-        </ul>
+        </ol>
         <footer>
             <p>Made by Max Shi, SID 10439248</p>
         </footer>
+        <script src="js/script.js"></script>
     </body>
-    <script src="js/script.js"></script>
 </html>

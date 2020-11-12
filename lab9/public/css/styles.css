@@ -29,3 +29,25 @@ form button {
   border: none;
   padding: 4px;
 }
+ol {
+  list-style-type: circle;
+}
+h1 {
+  font-style: italic;
+  font-size: 48px;
+}
+label {
+  font-weight: bold;
+  font-size: 24px;
+}
+footer {
+  text-decoration: underline overline wavy;
+}
+input {
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 4px;
+}
+input:focus {
+  border: 2px solid gray;
+}

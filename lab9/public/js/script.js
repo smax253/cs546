@@ -1,9 +1,10 @@
 const form = document.querySelector("form");
-
+const memo = { 1: 1 };
 function fibonacci(num) {
   if (num <= 0) return 0;
-  if (num === 1) return 1;
-  else return fibonacci(num - 1) + fibonacci(num - 2);
+  if (memo[num]) return memo[num];
+  memo[num] = fibonacci(num - 1) + fibonacci(num - 2);
+  return memo[num];
 }
 
 function isPrime(num) {
@@ -24,9 +25,15 @@ form.onsubmit = function (event) {
   document.querySelector("#error").classList.add("hidden");
   const value = +input.value;
   const fib = fibonacci(value);
+  if (fib === Infinity) {
+    document.querySelector("#too-large").classList.remove("hidden");
+    return;
+  }
+  document.querySelector("#too-large").classList.add("hidden");
   const prime = isPrime(fib);
   const newElement = document.createElement("li");
   newElement.textContent = `The Fibonacci of ${value} is ${fib}.`;
   newElement.classList.add(prime ? "is-prime" : "not-prime");
-  document.querySelector("ul").appendChild(newElement);
+  document.querySelector("#results").appendChild(newElement);
+  form.reset();
 };
