@@ -14,14 +14,19 @@ const camelCase = (string) => {
 const replaceChar = (string) => {
   if (!string || typeof string != "string")
     throw "string must be a non-empty string";
-
-  const firstLetter = string[0].toLowerCase();
+  const trimmedInput = string.trim();
+  if (!trimmedInput) throw "string must have a non-space character";
+  const firstLetter = trimmedInput[0].toLowerCase();
   let symbol = "*";
+  let found = false;
   return string
     .split("")
-    .map((letter, ind) => {
-      if (ind === 0) return letter;
-      else if (letter.toLowerCase() === firstLetter) {
+    .map((letter) => {
+      if (letter.toLowerCase() === firstLetter) {
+        if (!found) {
+          found = true;
+          return letter;
+        }
         let currentSymbol = symbol;
         symbol = symbol === "*" ? "$" : "*";
         return currentSymbol;
