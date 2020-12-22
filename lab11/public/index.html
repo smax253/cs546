@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Show Search</title>
+        <link rel="stylesheet" href="css/styles.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <header>
+            <h1>Show Search</h1>
+        </header>
+        <form id='searchForm'>
+            <label for="search_term">Show Search</label>
+            <input type="text" id="search_term">    
+            <button type="submit">Search</button>
+        </form>
+        <h3 id="error" hidden>Invalid Search Term!</h3>
+
+        <ul id="showList" hidden></ul>
+        <div id="show" hidden></div>
+        
+        <a hidden id="homeLink" href="/">Back to All Shows</a>
+
+        <footer>
+            <p>Made by Max Shi, SID 10439248</p>
+        </footer>
+        <script src="js/script.js"></script>
+    </body>
+</html>
